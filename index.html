@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+  <title>Log Browser</title>
+
+  <link rel="stylesheet" href="log-browser.css" />
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.1/angular.min.js"></script>
+  <script src="bower_components/js-untar/build/dist/untar.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pako/1.0.5/pako_inflate.min.js"></script>
+  <script src="log-browser.js"></script>
+
+</head>
+<body ng-app="logbrowse" ng-controller="FileController">
+
+  <div id="menu">
+    <div class="menu-item" ng-class="{selected: (page=='upload')}"
+      ng-click="go('upload')">
+      <img src="img/misc-icon.png"
+        style="height: 20px; vertical-align: -4px; padding-left: 5px; padding-right: 15px;">Upload File
+    </div>
+    <div class="menu-item"
+      ng-class="{selected: (page=='trace'), disabled: !tracePresent}"
+      ng-click="go('trace')">
+      <img src="img/sip-trace.png">SIP Trace
+    </div>
+  </div>
+
+  <div id="content">
+
+    <div ng-if="(page=='upload')"
+      style="text-align: center; padding-top: 60px;">
+
+      <h1>Welcome</h1>
+      <br />
+      This is a log viewer for Q-Sys' log archives (.qsyslog files).<br /><br />
+
+      <input type="file" id="file" fileread="parse" style="display: none;">
+      <br /><br />
+      <br /><br />
+      <label for="file" class="file">Browse...</label>
+      <br /><br />
+      <br /><br />
+      <br /><br />
+      <br /><br />
+      <b>Worried about confidentiality?</b><br /><br />
+      That's fair enough. There can be a lot of sensitive data in .qsyslog files!<br /><br />
+      That's why this log viewer runs entirely in-browser.<br /><br />
+      Your log archive never leaves your computer!<br />
+      <br /><br />
+      <br /><br />
+      <br /><br />
+
+    </div>
+
+    <div ng-if="(page=='trace')" style="height: 100%;">
+      <pre style="display: inline-block; padding: 20px; margin: 0px; white-space: pre-wrap" ng-bind="siplog"></pre>
+    </div>
+
+  </div>
+
+</body>
+</html>

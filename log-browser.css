@@ -1,0 +1,97 @@
+html,body {
+  margin: 0px;
+  height: 100%;
+  font-size: 95%;
+  user-select: none;
+  cursor: default;
+  overflow: hidden;
+}
+
+body {
+  background: #5b7277;
+  color: #d3d3d3;
+  font-family: Arial;
+}
+
+h1 {
+  margin: 0px;
+}
+
+div#menu {
+  position: fixed;
+  border: 1px solid #313f42;
+  width: 162px;
+  height: 100%;
+  display: inline-block;
+  z-index: 9;
+}
+
+div#content {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  overflow: scroll;
+}
+
+div#content > div {
+  margin-left: 164px;
+}
+
+.menu-item {
+  height: 40px;
+  width: 155px;
+  background: linear-gradient(#667e82, #4b6064);
+  line-height: 40px;
+  padding-left: 5px;
+  border: 1px solid transparent;
+  border-bottom: 1px solid #313f42;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+
+.menu-item.selected {
+  margin-left: 0px;
+  background: linear-gradient(#81989c, #81989c 50%, #768e92 51%, #6e868b);
+  border: 1px solid #92a4a7;
+  color: white;
+}
+
+.menu-item.selected::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  left: -1px;
+  bottom: -2px;
+  display: inline-block;
+  border: 1px solid #313f42;
+  border-top: none;
+  width: 100%;
+}
+
+.menu-item img {
+  height: 25px;
+  vertical-align: -6px;
+  padding-right: 10px;
+}
+
+.menu-item.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+
+}
+
+label.file {
+  display: inline-block;
+  line-height: 40px;
+  cursor: pointer;
+  background-color: rgba(255,255,255, 0.3);
+  border: none;
+  width: 200px;
+  height: 40px;
+  color: white;
+  border-radius: 10px;
+  font-size: 100%;
+}
