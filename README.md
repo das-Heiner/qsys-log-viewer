@@ -1,2 +1,6 @@
-# qsys-log-viewer
-Log Viewer for Q-Sys cores
+# Q-Sys Log Viewer
+
+In-browser .qsyslog file extraction and inspection.
+
+Current features:
+ - SIP trace
