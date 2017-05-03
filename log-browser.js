@@ -51,6 +51,8 @@ angular.module('logbrowse', [])
             $scope.tracePresent = !!sip_trace;
             if(sip_trace) {
               $scope.siplog = String.fromCharCode.apply(null, new Uint8Array(sip_trace.buffer));
+            } else {
+              alert('No SIP trace was present in the log file.');
             }
           });
 
