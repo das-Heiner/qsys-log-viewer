@@ -30,9 +30,19 @@
       ng-click="go('upload')">
       <img src="img/misc-icon.png"
         style="height: 20px; vertical-align: -4px; padding-left: 5px; padding-right: 15px;">Upload File
+    </div><br />
+    <div class="menu-item"
+      ng-class="{selected: (page=='syslog'), disabled: !syslog }"
+      ng-click="go('syslog')">
+      <img src="img/misc-icon.png">System Log
     </div>
     <div class="menu-item"
-      ng-class="{selected: (page=='trace'), disabled: !tracePresent}"
+      ng-class="{selected: (page=='eventlog'), disabled: !evtlog }"
+      ng-click="go('eventlog')">
+      <img src="img/misc-icon.png">Event Log
+    </div>
+    <div class="menu-item"
+      ng-class="{selected: (page=='trace'), disabled: !siplog}"
       ng-click="go('trace')">
       <img src="img/sip-trace.png">SIP Trace
     </div>
@@ -71,6 +81,20 @@
 
     <div ng-if="(page=='trace')" style="height: 100%;">
       <pre style="display: inline-block; padding: 20px; margin: 0px; white-space: pre-wrap" ng-bind="siplog"></pre>
+    </div>
+
+    <div ng-if="(page=='syslog')" style="height: 100%;">
+
+      <h3 style="padding-left: 20px; margin-bottom: 0px;">Newest data at the bottom of the log.</h3>
+
+      <pre style="display: inline-block; padding: 20px; margin: 0px; white-space: pre-wrap" ng-bind="syslog"></pre>
+    </div>
+
+    <div ng-if="(page=='eventlog')" style="height: 100%;">
+
+      <h3 style="padding-left: 20px; margin-bottom: 0px;">Newest data at the bottom of the log.</h3>
+
+      <pre style="display: inline-block; padding: 20px; margin: 0px; white-space: pre-wrap" ng-bind="evtlog"></pre>
     </div>
 
   </div>

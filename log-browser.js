@@ -1,9 +1,5 @@
 angular.module('logbrowse', [])
 
-  .run(function() {
-    console.log('browsing');
-  })
-
   .directive("fileread", [function () {
     return {
       scope: {
@@ -41,20 +37,64 @@ angular.module('logbrowse', [])
 
         .then(function(files) {
 
-          angular.forEach(files, function(file) {
-            $scope.files[file.name] = file;
+          $scope.$apply(function() {
+
+            delete $scope.siplog;
+            delete $scope.syslog;
+            delete $scope.evtlog;
+
+            var syslog, evtlog;
+
+            angular.forEach(files, function(file) {
+
+              // SIP Trace
+              if(file.name == 'var/lib/freeswitch/log/freeswitch.log' || file.name == 'var/log/freeswitch/freeswitch.log') {
+                $scope.siplog = new TextDecoder('utf-8').decode(file.buffer);
+              }
+
+              // System log handler
+              if(file.name.startsWith('media/log/messages')) {
+                syslog = [];
+                var index = parseInt(file.name.substr(19)) + 1;
+                if(isNaN(index)) { index = 0; }
+                syslog[index] = new TextDecoder('utf-8').decode(file.buffer);
+              }
+
+              // Event log handler
+              if(file.name.startsWith('var/designs/current_design/settings/event_log_2')) {
+                if(!evtlog) { evtlog = []; }
+                evtlog[file.name] = new TextDecoder('utf-8').decode(file.buffer);
+              }
+
+            });
+
+            if(syslog) {
+              $scope.syslog = '';
+              for(var i = syslog.length-1; i >= 0; i--) {
+                $scope.syslog += syslog[i];
+              }
+            }
+
+            if(evtlog) {
+              evtlog = evtlog.sort(function(a,b) { return a < b; }); // sort event logs;
+              $scope.evtlog = '';
+              for(var i in evtlog) {
+                $scope.evtlog += evtlog[i] + '\n\n';
+              }
+            }
+
           });
 
-          var sip_trace = $scope.files['var/lib/freeswitch/log/freeswitch.log'];
+          /*var sip_trace = $scope.files['var/lib/freeswitch/log/freeswitch.log'];
+          var syslog_fh = $scope.files['media/log/messages'];
+          var evtlog_fh = $scope.files['var/designs/current_design/event_log_head.xml'];
 
           $scope.$apply(function() {
-            $scope.tracePresent = !!sip_trace;
-            if(sip_trace) {
-              $scope.siplog = String.fromCharCode.apply(null, new Uint8Array(sip_trace.buffer));
-            } else {
-              alert('No SIP trace was present in the log file.');
-            }
-          });
+            
+            if(sip_trace) {  }
+            if(syslog_fh) { $scope.syslog = String.fromCharCode.apply(null, new Uint8Array(syslog_fh.buffer)); }
+            if(evtlog_fh) { $scope.evtlog = String.fromCharCode.apply(null, new Uint8Array(evtlog_fh.buffer)); }
+          });*/
 
         }, function(err) {
           console.error(err);
